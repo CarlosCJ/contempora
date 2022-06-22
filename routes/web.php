@@ -17,4 +17,5 @@ Route::controller(UsuarioController::class)->group(function (){
 
     Route::get('/usuarios', 'getUsers');
 
+    Route::post('/usuarios', 'crearUsuario');
  });
