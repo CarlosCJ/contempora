@@ -93,6 +93,7 @@ class UsuarioController extends Controller
             $genero = collect(['estado' => 'No puede estar en blanco, puede ser true o false']);
             $mensaje = $mensaje->merge($genero);
         }
+        dd($mensaje);
         return $mensaje;
     }
 
@@ -119,6 +120,31 @@ class UsuarioController extends Controller
         // return ['result' => 'Data has been saved.'];
         return json_decode($peticion->getBody()->getContents());
         // return json_decode($request);
+    }
+
+    public function updateUser($id, Request $request){
+        $dataEntrada = $request->input();
+        $msj = $this->validar($dataEntrada);
+        if($msj->count() != 0){
+            return $msj;
+        }
+        $token = '40adc5ce702bf6220a5fcb1f97b4011b0583ed15f667fcd072350aeefe2035cf';
+        $cli = new Client();
+        $peticion = $cli->request('PUT', 'https://gorest.co.in/public/v2/users/' . $id, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Accept' => 'application/json',
+            ],
+            'json' => [
+                'name'      => $request->input('nombre'),
+                'email'     => $request->input('email'),
+                'gender'    => $request->input('genero'),
+                'status'    => $request->input('estado') === 'true' ? 'active' : 'inactive',
+            ]
+        ]);
+        //dd($peticion);
+        // return ['result' => 'Data has been saved.'];
+        return json_decode($peticion->getBody()->getContents());
     }
 
 }

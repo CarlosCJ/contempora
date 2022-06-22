@@ -18,4 +18,6 @@ Route::controller(UsuarioController::class)->group(function (){
     Route::get('/usuarios', 'getUsers');
 
     Route::post('/usuarios', 'crearUsuario');
+
+    Route::put('/usuarios/{id}', 'updateUser')->whereNumber('id');
  });
