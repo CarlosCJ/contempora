@@ -19,5 +19,7 @@ Route::controller(UsuarioController::class)->group(function (){
 
     Route::post('/usuarios', 'crearUsuario');
 
+    Route::put('/usuarios', 'updateUserEmail');
     Route::put('/usuarios/{id}', 'updateUser')->whereNumber('id');
+    
  });

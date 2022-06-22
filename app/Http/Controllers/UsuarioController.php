@@ -147,4 +147,29 @@ class UsuarioController extends Controller
         return json_decode($peticion->getBody()->getContents());
     }
 
+    public function updateUserEmail(Request $request){
+        dd($request);
+        if ($request->hasAny(['email'])){
+            $token = '40adc5ce702bf6220a5fcb1f97b4011b0583ed15f667fcd072350aeefe2035cf';
+            $cli = new Client();
+            $peticion = $cli->request('PUT', 'https://gorest.co.in/public/v2/users', [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $token,
+                    'Accept' => 'application/json',
+                ],
+                'query' => [
+                    'email' => $request
+                ]
+                'json' => [
+                    'name'      => $request->input('nombre'),
+                    'email'     => $request->input('email'),
+                    'gender'    => $request->input('genero'),
+                    'status'    => $request->input('estado') === 'true' ? 'active' : 'inactive',
+                ]
+            ]);
+        }
+        dd($peticion);
+        return ['result' => 'Data has been saved.'];
+        return json_decode($peticion->getBody()->getContents());
+    }
 }
